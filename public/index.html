@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <body>
+        <h2>Socket.IO Lab</h2>
+
+        <input id="room" placeholder="Room name"/>
+        <button onclick="joinRoom()">Join</button>
+
+
+        <input id="msg" placeholder="Message"/>
+        <button onclick="sendMessage()">Send</button>
+
+        <ul id="log"></ul>
+
+        <script src="/socket.io/socket.io.js"></script>
+        <script>
+            const socket = io();
+            let currentRoom = null;
+
+            function joinRoom() {
+                currentRoom = room.value;
+                socket.emit("join-room",currentRoom);
+            }
+
+
+            function sendMessage() {
+                socket.emit("message", {
+                    room: currentRoom,
+                    message: msg.value
+                });
+            }
+
+            socket.on("message", (data) => {
+                const li = document.createElement("li");
+                li.textContent = `${data.sender}: ${data.message}`;
+                log.appendChild(li);
+            });
+
+
+            socket.on("system", (text) => {
+                const li = document.createElement("li");
+                li.textContent = `[SYSTEM] ${text}`;
+                log.appendChild(li);
+            });
+        </script>
+    </body>
+</html>
