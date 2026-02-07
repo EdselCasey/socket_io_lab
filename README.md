@@ -35,4 +35,4 @@ with a barebones system to make runtime behavior, state, and trust boundaries ex
 ## How to Run
 ```bash
 npm install
-npm run dev
+node server.js
